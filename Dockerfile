@@ -5,7 +5,7 @@ WORKDIR /app
 COPY . .
 
 RUN apt-get update && apt-get install -y cron
-
+RUN pip install python-dotenv
 RUN pip install -r requirements.txt
 
 RUN echo "* * * * * root rm -rf /app/uploads/*" >> /etc/crontab

@@ -4,14 +4,15 @@ services:
     image: mysql:latest
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: hehe
-      MYSQL_DATABASE: baza
-      MYSQL_USER: hehe
-      MYSQL_PASSWORD: hehe
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "3306:3306"
     volumes:
       - ./db-init-scripts:/docker-entrypoint-initdb.d
+    command: --default-time-zone=Europe/Warsaw
   apka:
     build:
       context: .
@@ -19,9 +20,9 @@ services:
     image: my-app
     ports:
        - "5000:5000"
-  cron:
-    image: alpine:latest
-    volumes:
-       - ./cron:/etc/cron.d
-       - ./app:/app
-    command: "crond -f -d 8"
+    environment:
+      MYSQL_HOST: db
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
