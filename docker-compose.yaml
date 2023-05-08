@@ -1,0 +1,21 @@
+version: '3'
+services:
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: hehe
+      MYSQL_DATABASE: baza
+      MYSQL_USER: hehe
+      MYSQL_PASSWORD: hehe
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./db-init-scripts:/docker-entrypoint-initdb.d
+  apka:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: my-app
+    ports: 
+       - "5000:5000"
