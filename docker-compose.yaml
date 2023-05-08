@@ -17,5 +17,11 @@ services:
       context: .
       dockerfile: Dockerfile
     image: my-app
-    ports: 
+    ports:
        - "5000:5000"
+  cron:
+    image: alpine:latest
+    volumes:
+       - ./cron:/etc/cron.d
+       - ./app:/app
+    command: "crond -f -d 8"
